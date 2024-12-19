@@ -1,0 +1,37 @@
+def modify_file_content(content):
+    """
+    Modify the content as needed.
+    For demonstration, let's convert the text to uppercase.
+    """
+    return content.upper()
+
+def main():
+    try:
+        # Ask the user for the filename
+        input_filename = input("Enter the name of the file to read from: ")
+        
+        # Try to open the input file for reading
+        with open(input_filename, 'r') as infile:
+            content = infile.read()
+
+        # Modify the content
+        modified_content = modify_file_content(content)
+
+        # Ask for the output file name
+        output_filename = input("Enter the name of the new file to write to: ")
+
+        # Write the modified content to the new file
+        with open(output_filename, 'w') as outfile:
+            outfile.write(modified_content)
+        
+        print(f"Modified content has been successfully written to '{output_filename}' 🎉")
+
+    except FileNotFoundError:
+        print("Error: The file you specified does not exist. Please try again. 🛑")
+    except PermissionError:
+        print("Error: You don't have permission to read or write to the specified file. 🛑")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e} 🛑")
+
+if __name__ == "__main__":
+    main()
