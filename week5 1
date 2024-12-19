@@ -1,0 +1,74 @@
+q1
+# Parent Class: Smartphone
+class Smartphone:
+    def __init__(self, brand, model, price):
+        self.brand = brand
+        self.model = model
+        self.price = price
+
+    def make_call(self, number):
+        print(f"Calling {number} from {self.model}...")
+
+    def send_message(self, number, message):
+        print(f"Sending '{message}' to {number} from {self.model}...")
+
+    def display_info(self):
+        print(f"{self.brand} {self.model} costs ${self.price}")
+
+# Child Class: GamingSmartphone
+class GamingSmartphone(Smartphone):
+    def __init__(self, brand, model, price, cooling_system, refresh_rate):
+        super().__init__(brand, model, price)
+        self.cooling_system = cooling_system
+        self.refresh_rate = refresh_rate
+
+    def display_gaming_features(self):
+        print(f"{self.model} has a {self.cooling_system} cooling system and a {self.refresh_rate}Hz refresh rate.")
+
+# Creating objects
+basic_phone = Smartphone("Nokia", "3310", 50)
+gaming_phone = GamingSmartphone("Asus", "ROG Phone 5", 999, "liquid", 144)
+
+# Using methods
+basic_phone.display_info()
+basic_phone.make_call("123-456-7890")
+gaming_phone.display_info()
+gaming_phone.display_gaming_features()
+gaming_phone.send_message("987-654-3210", "Ready to game?")
+
+q2
+# Parent Class: Mover
+class Mover:
+    def move(self):
+        pass
+
+# Subclass: Car
+class Car(Mover):
+    def move(self):
+        print("Driving 🚗")
+
+# Subclass: Plane
+class Plane(Mover):
+    def move(self):
+        print("Flying ✈️")
+
+# Subclass: Horse
+class Horse(Mover):
+    def move(self):
+        print("Galloping 🐎")
+
+# Subclass: Fish
+class Fish(Mover):
+    def move(self):
+        print("Swimming 🐟")
+
+# Polymorphism in action
+def demonstrate_movement(movers):
+    for mover in movers:
+        mover.move()
+
+# Creating objects
+movers = [Car(), Plane(), Horse(), Fish()]
+
+# Demonstrate polymorphism
+demonstrate_movement(movers)
