@@ -1,0 +1,92 @@
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+
+# Task 1: Load and Explore the Dataset
+try:
+    # Load Iris dataset
+    iris = load_iris()
+    iris_data = pd.DataFrame(
+        data=np.c_[iris['data'], iris['target']],
+        columns=iris['feature_names'] + ['species']
+    )
+
+    # Display the first few rows
+    print("First five rows of the dataset:")
+    print(iris_data.head())
+
+    # Check data types and missing values
+    print("\nData types:")
+    print(iris_data.dtypes)
+    print("\nMissing values:")
+    print(iris_data.isnull().sum())
+
+    # Clean dataset (no missing values in this dataset, but here's how you could handle them)
+    iris_data.dropna(inplace=True)  # Drop rows with missing values
+
+except FileNotFoundError:
+    print("Error: Dataset file not found.")
+except Exception as e:
+    print(f"An error occurred: {e}")
+
+# Task 2: Basic Data Analysis
+# Compute basic statistics
+print("\nBasic statistics of numerical columns:")
+print(iris_data.describe())
+
+# Grouping by species and computing the mean of numerical columns
+print("\nMean values grouped by species:")
+species_means = iris_data.groupby('species').mean()
+print(species_means)
+
+# Task 3: Data Visualization
+# Set seaborn style
+sns.set(style="whitegrid")
+
+# Line chart (example: cumulative sum of sepal length for demonstration)
+iris_data['cumulative_sepal_length'] = iris_data[iris['feature_names'][0]].cumsum()
+plt.figure(figsize=(10, 6))
+plt.plot(iris_data.index, iris_data['cumulative_sepal_length'], label='Cumulative Sepal Length')
+plt.title("Cumulative Sepal Length Over Index")
+plt.xlabel("Index")
+plt.ylabel("Cumulative Sepal Length")
+plt.legend()
+plt.show()
+
+# Bar chart (average petal length per species)
+plt.figure(figsize=(10, 6))
+sns.barplot(x=iris_data['species'], y=iris_data[iris['feature_names'][2]])
+plt.title("Average Petal Length per Species")
+plt.xlabel("Species")
+plt.ylabel("Petal Length")
+plt.show()
+
+# Histogram (distribution of sepal width)
+plt.figure(figsize=(10, 6))
+plt.hist(iris_data[iris['feature_names'][1]], bins=15, color='skyblue', edgecolor='black')
+plt.title("Distribution of Sepal Width")
+plt.xlabel("Sepal Width")
+plt.ylabel("Frequency")
+plt.show()
+
+# Scatter plot (sepal length vs petal length)
+plt.figure(figsize=(10, 6))
+sns.scatterplot(
+    x=iris_data[iris['feature_names'][0]],
+    y=iris_data[iris['feature_names'][2]],
+    hue=iris_data['species'],
+    palette="viridis"
+)
+plt.title("Sepal Length vs Petal Length")
+plt.xlabel("Sepal Length")
+plt.ylabel("Petal Length")
+plt.legend(title="Species")
+plt.show()
+
+# Insights (print findings)
+print("\nInsights:")
+print("1. The Iris dataset has no missing values.")
+print("2. Different species show distinct mean values for petal and sepal measurements.")
+print("3. Sepal length and petal length are positively correlated.")
